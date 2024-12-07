@@ -9,7 +9,7 @@ import SwiftUI
 
 
 class WeatherViewModel: ObservableObject {
-    @Published var currentData: [CurrentWeather]?
+    @Published var currentData: CurrentWeather?
     @Published var city: String = ""
     @Published var errorMessage: String = ""
     
@@ -17,13 +17,8 @@ class WeatherViewModel: ObservableObject {
     
     func fetchCurrent() async throws {
         do {
-            let data = try await weatherInfo.fetchCurrent(city: city)
-            switch data {
-            case .success(let current):
-                currentData = current
-            case .failure(let error):
-                print(error)
-            }
+            let current = try await weatherInfo.fetchCurrent(city: city)
+            currentData = current
         } catch {
             print(error)
         }

@@ -40,22 +40,17 @@ struct WeatherService {
     let apiKey = "dafb55206f2d43b79bc205851242202"
     let baseURL = "https://api.weatherapi.com/v1/"
     
-    func fetchCurrent(city: String) async throws -> Result<[CurrentWeather],Error> {
+    func fetchCurrent(city: String) async throws -> CurrentWeather {
         
         let currentURL = "\(baseURL)current.json?key=\(apiKey)&q=\(city)&aqi=no"
         
         guard let url = URL(string: currentURL)
-        else { return .failure(URLError(.badURL)) }
+        else { throw URLError(.badURL) }
         
         let (data, _ ) = try await URLSession.shared.data(from: url)
-        do {
-            let current = try JSONDecoder().decode([CurrentWeather].self,from: data)
-            return .success(current)
-        } catch {
-            print(error)
-            return.failure(error)
-        }
+        let current = try JSONDecoder().decode(CurrentWeather.self,from: data)
+        return current
     }
-    
 }
+    
 

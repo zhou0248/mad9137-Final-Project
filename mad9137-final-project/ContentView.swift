@@ -5,6 +5,7 @@
 //  Created by A 1 on 2024-11-19.
 //
 
+
 import SwiftUI
 
 
@@ -27,6 +28,8 @@ struct ContentView: View {
             
             if let currentWeather = viewModel.currentData {
                 Text("Fetched Weather for \(viewModel.city)")
+                Text("Weather: \(currentWeather.current.condition.text)")
+                Image("hppts:"+currentWeather.current.condition.icon)
             } else if !viewModel.errorMessage.isEmpty {
                 Text(viewModel.errorMessage)
             }
