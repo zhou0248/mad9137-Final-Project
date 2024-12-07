@@ -7,51 +7,28 @@
 
 import SwiftUI
 
-class GeoModelCity: ObservableObject {
-    @Published var geoData: [CityGeo]?
-    @Published var city: String = ""
-    @Published var errorMessage: String = ""
-    
-    private var geoInfo = GeoService()
-    
-    func fetchGeo() async throws {
-        do {
-            let data = try await geoInfo.fetchCoord(city: city)
-            switch data {
-            case .success(let cityGeo):
-                geoData = cityGeo
-            case .failure(let error):
-                print(error)
-            }
-        } catch {
-            print(error)
-        }
-    }
-}
-
 
 struct ContentView: View {
     
-    @StateObject private var geoInfo = GeoModelCity()
+    @StateObject private var viewModel = WeatherViewModel()
     
     var body: some View {
         VStack {
-            TextField("Enter city name", text: $geoInfo.city)
+            TextField("Enter city name", text: $viewModel.city)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            Button("Get Geo") {
+            Button("Check Current Weather") {
                 Task {
-                    let geo = try await geoInfo.fetchGeo()
-                    
+                    let current: () = try await viewModel.fetchCurrent()
+                    print(current)
                 }
             }.padding()
             
-            if let geoCoord = geoInfo.geoData {
-                Text("City: \(geoCoord[0].name )")
-                Text("Coordinates: \nLatitude:\(geoCoord[0].lat), Longitude:\(geoCoord[0].lon)")
-            } else if !geoInfo.errorMessage.isEmpty {
-                Text(geoInfo.errorMessage)
+            if let currentWeather = viewModel.currentData {
+                Text("Fetched Weather for \(viewModel.city)")
+            } else if !viewModel.errorMessage.isEmpty {
+                Text(viewModel.errorMessage)
             }
         }
         .padding()
