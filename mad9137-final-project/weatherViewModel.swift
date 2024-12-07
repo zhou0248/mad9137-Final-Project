@@ -13,6 +13,7 @@ class WeatherViewModel: ObservableObject {
     @Published var city: String = ""
     @Published var errorMessage: String = ""
     
+    
     private var weatherInfo = WeatherService()
     
     func fetchCurrent() async throws {

@@ -29,7 +29,8 @@ struct ContentView: View {
             if let currentWeather = viewModel.currentData {
                 Text("Fetched Weather for \(viewModel.city)")
                 Text("Weather: \(currentWeather.current.condition.text)")
-                Image("hppts:"+currentWeather.current.condition.icon)
+                let weatherIcon = "https:" + currentWeather.current.condition.icon
+                AsyncImage(url: URL(string: weatherIcon))
             } else if !viewModel.errorMessage.isEmpty {
                 Text(viewModel.errorMessage)
             }
