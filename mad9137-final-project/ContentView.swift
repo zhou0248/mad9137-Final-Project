@@ -16,6 +16,7 @@ struct ContentView: View {
 //            .environmentObject(viewModel)
         
         TabView{
+            
             CityListView()
                 .environmentObject(viewModel)
                 .tabItem{

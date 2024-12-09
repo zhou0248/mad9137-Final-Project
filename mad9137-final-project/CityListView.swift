@@ -11,8 +11,25 @@ struct CityListView: View {
     
     @EnvironmentObject var viewModel: WeatherViewModel
     
+    let cities = ["Ottawa","Edmonton","Calgary","Vancouver","Toronto"];
+    
     var body: some View {
-       Text("City List")
+        NavigationStack {
+            List {
+                ForEach(cities, id: \.self) { city in
+                    NavigationLink(destination: CityDetailView()) {
+                        Text("Weather for \(city)")
+                    }
+                    .task {
+                        do {
+                            let weather: () = try await viewModel.fetchWeather()
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+            }.navigationTitle("Weather")
+        }
     }
 }
 
