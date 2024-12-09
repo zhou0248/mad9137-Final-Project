@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-
 class WeatherViewModel: ObservableObject {
     @Published var currentData: CurrentWeather?
     @Published var city: String = ""
     @Published var errorMessage: String = ""
-    
     
     private var weatherInfo = WeatherService()
     

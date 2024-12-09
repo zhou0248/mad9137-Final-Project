@@ -10,6 +10,7 @@ import Foundation
 struct CurrentWeather : Codable {
     let location: Location
     let current: Current
+    let forecast: Forecast
 }
 
 struct Location: Codable {
@@ -36,6 +37,27 @@ struct Condition: Codable {
     let icon: String
 }
 
+struct Forecast: Codable {
+    let forecastday: ForecastDay
+}
+
+struct ForecastDay: Codable {
+    let hour: WeatherHour
+}
+
+struct WeatherHour: Codable {
+    let time: String
+    let temp_c: Double
+    let temp_f: Double
+    let feelslike_c: Double
+    let feelslike_f: Double
+    let uv: Double
+    let humidity: Double
+    let wind_kph: Double
+    let wind_mph: Double
+    let condition: Condition
+}
+
 struct WeatherService {
     let apiKey = "dafb55206f2d43b79bc205851242202"
     let baseURL = "https://api.weatherapi.com/v1/"
@@ -51,6 +73,8 @@ struct WeatherService {
         let current = try JSONDecoder().decode(CurrentWeather.self,from: data)
         return current
     }
+    
+    
 }
     
 
