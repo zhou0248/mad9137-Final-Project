@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CurrentWeather : Codable {
+struct WeatherInfo : Codable {
     let location: Location
     let current: Current
     let forecast: Forecast
@@ -38,11 +38,11 @@ struct Condition: Codable {
 }
 
 struct Forecast: Codable {
-    let forecastday: ForecastDay
+    let forecastday: [ForecastDay]
 }
 
 struct ForecastDay: Codable {
-    let hour: WeatherHour
+    let hour: [WeatherHour]
 }
 
 struct WeatherHour: Codable {
@@ -62,18 +62,17 @@ struct WeatherService {
     let apiKey = "dafb55206f2d43b79bc205851242202"
     let baseURL = "https://api.weatherapi.com/v1/"
     
-    func fetchCurrent(city: String) async throws -> CurrentWeather {
+    func fetchWeather(city: String) async throws -> WeatherInfo {
         
-        let currentURL = "\(baseURL)current.json?key=\(apiKey)&q=\(city)&aqi=no"
+        let weatherURL = "\(baseURL)forecast.json?key=\(apiKey)&q=\(city)&days=1&aqi=no"
         
-        guard let url = URL(string: currentURL)
+        guard let url = URL(string: weatherURL)
         else { throw URLError(.badURL) }
         
         let (data, _ ) = try await URLSession.shared.data(from: url)
-        let current = try JSONDecoder().decode(CurrentWeather.self,from: data)
-        return current
+        let weatherInfo = try JSONDecoder().decode(WeatherInfo.self,from: data)
+        return weatherInfo
     }
-    
     
 }
     

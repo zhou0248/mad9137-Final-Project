@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 struct ContentView: View {
     
     @StateObject private var viewModel = WeatherViewModel()
@@ -19,17 +18,17 @@ struct ContentView: View {
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            Button("Check Current Weather") {
+            Button("Check Weather") {
                 Task {
-                    let current: () = try await viewModel.fetchCurrent()
-                    print(current)
+                    let weatherInfo: () = try await viewModel.fetchWeather()
                 }
             }.padding()
             
-            if let currentWeather = viewModel.currentData {
+            if let weather = viewModel.weather {
                 Text("Fetched Weather for \(viewModel.city)")
-                Text("Weather: \(currentWeather.current.condition.text)")
-                let weatherIcon = "https:" + currentWeather.current.condition.icon
+                Text("Weather: \(weather.current.condition.text)")
+                Text("Forcast: \(weather.forecast.forecastday[0].hour[0].feelslike_c)")
+                let weatherIcon = "https:" + weather.current.condition.icon
                 AsyncImage(url: URL(string: weatherIcon))
             } else if !viewModel.errorMessage.isEmpty {
                 Text(viewModel.errorMessage)
