@@ -5,36 +5,29 @@
 //  Created by A 1 on 2024-11-19.
 //
 
-
 import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject private var viewModel = WeatherViewModel()
+    @StateObject var viewModel = WeatherViewModel()
     
     var body: some View {
-        VStack {
-            TextField("Enter city name", text: $viewModel.city)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            Button("Check Weather") {
-                Task {
-                    let weatherInfo: () = try await viewModel.fetchWeather()
+        CityListView()
+            .environmentObject(viewModel)
+        TabView{
+            CityListView()
+                .tabItem{
+                    Label("List", systemImage: "list.bullet")
                 }
-            }.padding()
-            
-            if let weather = viewModel.weather {
-                Text("Fetched Weather for \(viewModel.city)")
-                Text("Weather: \(weather.current.condition.text)")
-                Text("Forcast: \(weather.forecast.forecastday[0].hour[0].feelslike_c)")
-                let weatherIcon = "https:" + weather.current.condition.icon
-                AsyncImage(url: URL(string: weatherIcon))
-            } else if !viewModel.errorMessage.isEmpty {
-                Text(viewModel.errorMessage)
-            }
+            SearchView()
+                .tabItem{
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+            SettingsView()
+                .tabItem{
+                    Label("Settings", systemImage: "gear")
+                }
         }
-        .padding()
     }
 }
 
