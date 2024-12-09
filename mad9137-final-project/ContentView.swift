@@ -12,10 +12,12 @@ struct ContentView: View {
     @StateObject var viewModel = WeatherViewModel()
     
     var body: some View {
-        CityListView()
-            .environmentObject(viewModel)
+//        CityDetailView()
+//            .environmentObject(viewModel)
+        
         TabView{
             CityListView()
+                .environmentObject(viewModel)
                 .tabItem{
                     Label("List", systemImage: "list.bullet")
                 }
