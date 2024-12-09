@@ -11,18 +11,33 @@ struct CityListView: View {
     
     @EnvironmentObject var viewModel: WeatherViewModel
     
-    let cities = ["Ottawa","Edmonton","Calgary","Vancouver","Toronto"];
+    @State var cities = ["Ottawa","Edmonton","Calgary","Vancouver","Toronto"];
     
     var body: some View {
         NavigationStack {
             List {
                 ForEach(cities, id: \.self) { city in
-                    NavigationLink(destination: CityDetailView()) {
-                        Text("Weather for \(city)")
-                    }
+                    NavigationLink (destination: CityDetailView()) {
+                        VStack{
+                            Text("Weather for \(city)")
+                            if let weather = viewModel.weather {
+                                HStack{
+                                    VStack{
+                                        Text("Weather: \(weather.current.condition.text)")
+                                        Text("Forcast: \(weather.forecast.forecastday[0].hour[0].feelslike_c)")
+                                    }
+                                    let weatherIcon = "https:" + weather.current.condition.icon
+                                    AsyncImage(url: URL(string: weatherIcon))
+                                    }
+                            } else if !viewModel.errorMessage.isEmpty {
+                                    Text(viewModel.errorMessage)
+                            }
+                        }
+                  }
                     .task {
                         do {
-                            let weather: () = try await viewModel.fetchWeather()
+                            print(city)
+                            var weather: () = try await viewModel.fetchWeather(city:city)
                         } catch {
                             print(error)
                         }

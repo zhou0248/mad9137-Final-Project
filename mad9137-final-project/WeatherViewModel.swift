@@ -9,12 +9,12 @@ import SwiftUI
 
 class WeatherViewModel: ObservableObject {
     @Published var weather: WeatherInfo?
-    @Published var city: String = ""
+//    @Published var city: String = ""
     @Published var errorMessage: String = ""
     
     private var weatherInfo = WeatherService()
     
-    func fetchWeather() async throws {
+    func fetchWeather(city:String) async throws {
         do {
             let weatherData = try await weatherInfo.fetchWeather(city: city)
             weather = weatherData
