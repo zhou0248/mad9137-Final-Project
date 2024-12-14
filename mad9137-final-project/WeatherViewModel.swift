@@ -8,22 +8,23 @@
 import SwiftUI
 
 class WeatherViewModel: ObservableObject {
-    @Published var weather: WeatherInfo?
-    @Published var errorMessage: String = ""
     
+    @Published var errorMessage: String = ""
+    @Published var weatherList: [WeatherInfo] = []
     private var weatherInfo = WeatherService()
     
     func fetchWeather(city:String) async throws {
         do {
-            let weatherData = try await weatherInfo.fetchWeather(city: city)
-            await assignWeather(weatherData: weatherData)
+            let weatherInfo = try await weatherInfo.fetchWeather(city: city)
+            await assignWeather(weatherInfo: weatherInfo)
         } catch {
             print(error)
         }
     }
+    
     @MainActor
-    func assignWeather (weatherData: WeatherInfo) {
-        weather = weatherData
+    func assignWeather (weatherInfo: WeatherInfo) {
+        weatherList.append(weatherInfo)
     }
 }
 

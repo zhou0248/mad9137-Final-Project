@@ -11,7 +11,6 @@ import Foundation
 struct CityListView: View {
     
     @EnvironmentObject var viewModel: WeatherViewModel
-//    @State var cities = ["Ottawa","Edmonton","Calgary","Vancouver","Toronto"];
     @EnvironmentObject var cityList: CityList
     
     var body: some View {
@@ -21,7 +20,7 @@ struct CityListView: View {
                     NavigationLink (destination: CityDetailView()) {
                         VStack{
                             Text("Weather for \(city)")
-                            if let weather = viewModel.weather {
+                            if let weather = viewModel.weatherList {
                                 HStack{
                                     VStack{
                                         Text("Weather: \(weather.current.condition.text)")

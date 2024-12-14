@@ -8,28 +8,20 @@
 import SwiftUI
 import Foundation
 
+enum Unit {
+    case metric;
+    case imperial;
+}
+
 class UserSettings: ObservableObject {
-    @Published var refreshInterval: TimeInterval
+    @Published var refreshInterval: TimeInterval = 18000 //3 hours
+    @Published var unit: Unit = Unit.metric
     
-    //https:www.dhiwise.com/post/understanding-swift-timer-key-terms-you-need-to-know
-    private var timer: Timer?
-
-    func startTimer(TimeInterval: refreshInterval) async {
-               timer = Timer.scheduledTimer(timeInterval: refreshInterval, target: self, selector: #selector(refreshList), userInfo: nil, repeats: true)
-           }
-    
-    @objc func refreshList () {
-                
-    }
-
-    func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
 }
 
 
 struct SettingsView: View {
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }

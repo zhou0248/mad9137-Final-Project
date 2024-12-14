@@ -10,18 +10,21 @@ import SwiftUI
 struct SearchView: View {
     
     @EnvironmentObject var viewModel: WeatherViewModel
+    @EnvironmentObject var cityList: CityList
     @State var newCity: String = ""
     
     var body: some View {
         VStack{
             HStack{
+                //verify city name before
                 TextField("Search for a City", text: $newCity)
                     .keyboardType(.webSearch)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                Button("Search") { Task {
-                    
-                    let weatherInfo: () = try await viewModel.fetchWeather(city:newCity)
+                Button("Search") {
+                    Task {
+                        cityList.cities.append(newCity)
+                        let weatherInfo: () = try await viewModel.fetchWeather(city:newCity)
                     }
                 }
             }
