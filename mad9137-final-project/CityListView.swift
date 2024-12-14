@@ -6,17 +6,18 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct CityListView: View {
     
     @EnvironmentObject var viewModel: WeatherViewModel
-    
-    @State var cities = ["Ottawa","Edmonton","Calgary","Vancouver","Toronto"];
+//    @State var cities = ["Ottawa","Edmonton","Calgary","Vancouver","Toronto"];
+    @EnvironmentObject var cityList: CityList
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(cities, id: \.self) { city in
+                ForEach(cityList.cities, id: \.self) { city in
                     NavigationLink (destination: CityDetailView()) {
                         VStack{
                             Text("Weather for \(city)")
@@ -37,7 +38,7 @@ struct CityListView: View {
                     .task {
                         do {
                             print(city)
-                            var weather: () = try await viewModel.fetchWeather(city:city)
+                            try await viewModel.fetchWeather(city:city)
                         } catch {
                             print(error)
                         }
