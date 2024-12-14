@@ -12,7 +12,6 @@ class CityList : ObservableObject {
     
     @Published var cities = ["Ottawa","Edmonton","Calgary","Vancouver","Toronto", "Halifax","Bangkok","Chiangmai","Singagpore","Hong Kong"];
     @EnvironmentObject var viewModel: WeatherViewModel
-    @EnvironmentObject var userSettings: UserSettings
     
     private var timer: Timer?
     //https:www.dhiwise.com/post/understanding-swift-timer-key-terms-you-need-to-know

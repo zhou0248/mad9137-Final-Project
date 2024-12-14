@@ -16,7 +16,7 @@ struct SearchView: View {
     var body: some View {
         VStack{
             HStack{
-                //verify city name before
+                //verify city name before appending it to the list
                 TextField("Search for a City", text: $newCity)
                     .keyboardType(.webSearch)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
