@@ -7,20 +7,20 @@
 
 import Foundation
 
-struct WeatherInfo : Codable {
+struct WeatherInfo : Codable, Hashable {
     let location: Location
     let current: Current
     let forecast: Forecast
 }
 
-struct Location: Codable {
+struct Location: Codable,Hashable {
     let name: String
     let region: String
     let country: String
     let localtime: String
 }
 
-struct Current: Codable {
+struct Current: Codable,Hashable {
     let temp_c: Double
     let temp_f: Double
     let feelslike_c: Double
@@ -32,20 +32,20 @@ struct Current: Codable {
     let condition: Condition
 }
 
-struct Condition: Codable {
+struct Condition: Codable,Hashable {
     let text: String
     let icon: String
 }
 
-struct Forecast: Codable {
+struct Forecast: Codable,Hashable {
     let forecastday: [ForecastDay]
 }
 
-struct ForecastDay: Codable {
+struct ForecastDay: Codable,Hashable {
     let hour: [WeatherHour]
 }
 
-struct WeatherHour: Codable {
+struct WeatherHour: Codable,Hashable {
     let time: String
     let temp_c: Double
     let temp_f: Double

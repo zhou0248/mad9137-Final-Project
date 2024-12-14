@@ -18,7 +18,7 @@ class CityList : ObservableObject {
     //https:www.dhiwise.com/post/understanding-swift-timer-key-terms-you-need-to-know
     var refreshInterval = UserSettings.init().refreshInterval
     
-    func startTimer(refreshInterval:TimeInterval) {
+    func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: refreshInterval, target: self, selector: #selector(refreshList), userInfo: self, repeats: true)
     }
     
